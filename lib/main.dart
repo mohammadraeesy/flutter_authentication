@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_authentication/core/temp_manpage.dart';
+import 'package:flutter_authentication/core/main_page.dart';
 import 'package:flutter_authentication/futures/authentication/presentation/bloc/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter_authentication/futures/authentication/presentation/bloc/loginBloc/login_bloc.dart';
 import 'package:flutter_authentication/futures/authentication/presentation/pages/login_page.dart';
@@ -11,6 +11,7 @@ import 'injection_container.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  // await di.initLogin();
   runApp(BlocProvider<AuthenticationBloc>(
     create: (context) {
       return sl<AuthenticationBloc>()..add(AppStarted());
@@ -35,15 +36,7 @@ class MyApp extends StatelessWidget {
             return MainPage();
           }
           if (state is Unauthenticated) {
-            // return BlocProvider(
-            //   create: (_) => loginInjection<LoginBloc>(),
-            //   child: MyLoginPage(),
-            // );
-            return Container(
-              color: Colors.red,
-              width: 100,
-              height: 500,
-            );
+            return MyLoginPage();
           }
 
           return SplashScreen();

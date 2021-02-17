@@ -24,7 +24,7 @@ class LoginEventAuthentication extends AuthenticationEvent {
   List<Object> get props => [token,refreshToken,expiration];
 }
 
-class LogoutEvent extends AuthenticationEvent {
+class AuthenticationLogoutEvent extends AuthenticationEvent {
   @override
   // TODO: implement props
   List<Object> get props => [];

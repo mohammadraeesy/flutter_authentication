@@ -25,22 +25,23 @@ import 'futures/authentication/domain/entities/authentication.dart';
 import 'futures/authentication/domain/repositories/authentication_repositorie.dart';
 
 final sl = GetIt.instance;
-// final loginInjection = GetIt.instance;
+//final loginInjection = GetIt.instance;
 // final registerInjection = GetIt.instance;
 Future<void> init() async {
-  // initAuthentication();
-  // initLogin();
-  // initRegister();
+  await initAuthentication();
+  await initLogin();
+}
 
+Future<void> initAuthentication() async {
   //Bloc
-  // sl.registerFactory(() =>
-  //     AuthenticationBloc(add: sl(), check: sl(), delete: sl(), find: sl()));
-  sl.registerFactory(() => AuthenticationBloc(find: sl()));
+  sl.registerFactory(() =>
+      AuthenticationBloc(add: sl(), check: sl(), delete: sl(), find: sl()));
+  // sl.registerFactory(() => AuthenticationBloc(find: sl()));
 
   //use cases
-  // sl.registerLazySingleton(() => AddAuthenticationUsecase(repository: sl()));
-  // sl.registerLazySingleton(() => CheckAuthenticationUsecase(repository: sl()));
-  // sl.registerLazySingleton(() => DeleteAuthenticationUsecase(repository: sl()));
+  sl.registerLazySingleton(() => AddAuthenticationUsecase(repository: sl()));
+  sl.registerLazySingleton(() => CheckAuthenticationUsecase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteAuthenticationUsecase(repository: sl()));
   sl.registerLazySingleton(() => FindAuthenticationUsecase(repository: sl()));
   // sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
 
@@ -66,86 +67,22 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DataConnectionChecker());
 }
 
-// Future<void> initAuthentication() async {
-//   //Bloc
-//   sl.registerFactory(() =>
-//       AuthenticationBloc(add: sl(), check: sl(), delete: sl(), find: sl()));
-//
-//   //use cases
-//   sl.registerLazySingleton(() => AddAuthenticationUsecase());
-//   sl.registerLazySingleton(() => CheckAuthenticationUsecase(repository: sl()));
-//   sl.registerLazySingleton(() => DeleteAuthenticationUsecase(repository: sl()));
-//   sl.registerLazySingleton(() => FindAuthenticationUsecase(repository: sl()));
-//   // sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
-//
-//   //Repository
-//   sl.registerLazySingleton<AuthenticationRepository>(
-//     () => AuthenticationRepositoryImpl(
-//       dataSources: sl(),
-//     ),
-//   );
-//
-//   //Data Sources
-//   sl.registerLazySingleton<AuthenticationDataSources>(
-//       () => AuthenticationDataSourcesImpl(sharedPreferences: sl()));
-//
-//   //core !!
-//   // sl.registerLazySingleton(() => InputConverter());
-//   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-//
-//   //! External
-//   final sharedPreferences = await SharedPreferences.getInstance();
-//   sl.registerLazySingleton(() => sharedPreferences);
-//   sl.registerLazySingleton(() => http.Client());
-//   sl.registerLazySingleton(() => DataConnectionChecker());
-// }
+Future<void> initLogin() async {
+  sl.registerFactory(
+      () => LoginBloc(loginUsecase: sl(), authenticationBloc: sl()));
 
-// Future<void> initLogin() {
-//   //Bloc
-//   loginInjection.registerFactory(() =>
-//       LoginBloc(usecase: loginInjection(), ABloc: authenticationIjection()));
-//
-//   //usecases
-//   loginInjection
-//       .registerLazySingleton(() => LoginUsecase(repository: loginInjection()));
-//
-//   //repository
-//   loginInjection.registerLazySingleton<LoginRepository>(
-//       () => LoginRepositoryImpl(loginDataSource: loginInjection()));
-//
-//   //data sources
-//   loginInjection.registerLazySingleton<LoginDataSource>(
-//       () => LoginDataSourceImpl(client: loginInjection()));
-//
-//   //core !!
-//   loginInjection.registerLazySingleton<NetworkInfo>(
-//       () => NetworkInfoImpl(loginInjection()));
-//
-//   //! External
-//   loginInjection.registerLazySingleton(() => http.Client());
-//   loginInjection.registerLazySingleton(() => DataConnectionChecker());
-// }
+  //usecases
+  sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
 
-// Future<void> initRegister() {
-//   registerInjection
-//       .registerFactory(() => RegisterBloc(usecase: registerInjection()));
-//
-//   //usecase
-//   registerInjection.registerLazySingleton(
-//       () => RegisterUsecase(repository: registerInjection()));
-//
-//   //repository
-//   registerInjection.registerLazySingleton<RegisterRepository>(() =>
-//       RegisterRepositoryImpl(
-//           networkInfo: registerInjection(),
-//           registerDataSource: registerInjection()));
-//
-//   //data sources
-//   registerInjection.registerLazySingleton<RegisterDataSource>(
-//       () => RegisterDataSourceImpl(client: registerInjection()));
-//
-//   //core !!
-//   registerInjection.registerLazySingleton<NetworkInfo>(
-//       () => NetworkInfoImpl(loginInjection()));
-//   //! External
-// }
+  //repository
+  sl.registerLazySingleton<LoginRepository>(
+      () => LoginRepositoryImpl(loginDataSource: sl(), networkInfo: sl()));
+
+  //data sources
+  sl.registerLazySingleton<LoginDataSource>(
+      () => LoginDataSourceImpl(client: sl()));
+
+  // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  // sl.registerLazySingleton(() => http.Client());
+  // sl.registerLazySingleton(() => DataConnectionChecker());
+}

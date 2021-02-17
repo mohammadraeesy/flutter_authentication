@@ -18,12 +18,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc authenticationBloc;
 
   LoginBloc(
-      {@required LoginUsecase usecase, @required AuthenticationBloc ABloc})
-      : assert(usecase != null),
-        assert(ABloc != null),
-        loginUsecase = usecase,
-        authenticationBloc = ABloc,
-        super(Epty());
+      {@required LoginUsecase loginUsecase,
+      @required AuthenticationBloc authenticationBloc})
+      : assert(loginUsecase != null),
+        assert(authenticationBloc != null),
+        loginUsecase = loginUsecase,
+        authenticationBloc = authenticationBloc,
+        super(Empty());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -35,14 +36,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           Params(username: event.username, password: event.password));
       yield failureOrLogin.fold((failure) => ErrorState(massage: 'ERROR'),
           (authentication) {
-        authenticationBloc.add(LoginEventAuthentication(
-            token: authentication.token,
-            refreshToken: authentication.RefreshToken,
-            expiration: authentication.Expiration));
+        authenticationBloc.add(
+          LoginEventAuthentication(
+              token: authentication.token,
+              refreshToken: authentication.RefreshToken,
+              expiration: authentication.Expiration),
+        );
         return LoadedState(massage: 'successfully Login');
       });
-    } else {
-      yield ErrorState(massage: 'ERROR');
     }
   }
 }

@@ -12,7 +12,7 @@ class LoginRepositoryImpl implements LoginRepository {
   final LoginDataSourceImpl loginDataSource;
   final NetworkInfo networkInfo;
 
-  LoginRepositoryImpl({@required this.loginDataSource, this.networkInfo});
+  LoginRepositoryImpl({@required this.loginDataSource,@required this.networkInfo});
 
   @override
   Future<Either<Failure, Authentication>> Login(

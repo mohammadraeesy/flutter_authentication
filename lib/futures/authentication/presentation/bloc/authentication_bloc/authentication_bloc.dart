@@ -16,30 +16,30 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  // final AddAuthenticationUsecase addAuthentication; // It should be use case.
-  // final CheckAuthenticationUsecase checkAuthenticationUsecase;
-  // final DeleteAuthenticationUsecase deleteAuthentication;
+  final AddAuthenticationUsecase addAuthentication; // It should be use case.
+  final CheckAuthenticationUsecase checkAuthenticationUsecase;
+  final DeleteAuthenticationUsecase deleteAuthentication;
   final FindAuthenticationUsecase findAuthentication;
 
-  AuthenticationBloc({@required FindAuthenticationUsecase find})
+  /*AuthenticationBloc({@required FindAuthenticationUsecase find})
       : assert(find != null),
         findAuthentication = find,
-        super(Uninitialized());
+        super(Uninitialized());*/
 
-  // AuthenticationBloc(
-  //     {@required AddAuthenticationUsecase add,
-  //       @required CheckAuthenticationUsecase check,
-  //       @required DeleteAuthenticationUsecase delete,
-  //       @required FindAuthenticationUsecase find})
-  //     : assert(add != null),
-  //       assert(check != null),
-  //       assert(delete != null),
-  //       assert(find != null),
-  //       addAuthentication = add,
-  //       checkAuthenticationUsecase = check,
-  //       deleteAuthentication = delete,
-  //       findAuthentication = find,
-  //       super(Uninitialized());
+  AuthenticationBloc(
+      {@required AddAuthenticationUsecase add,
+        @required CheckAuthenticationUsecase check,
+        @required DeleteAuthenticationUsecase delete,
+        @required FindAuthenticationUsecase find})
+      : assert(add != null),
+        assert(check != null),
+        assert(delete != null),
+        assert(find != null),
+        addAuthentication = add,
+        checkAuthenticationUsecase = check,
+        deleteAuthentication = delete,
+        findAuthentication = find,
+        super(Uninitialized());
 
   // this value is temp and i will delete it after maded server
 
@@ -53,7 +53,7 @@ class AuthenticationBloc
       //AuthenticationLoading
       yield* _mapLoggedInToState(
           event.token, event.refreshToken, event.expiration);
-    } else if (event is LogoutEvent) {
+    } else if (event is AuthenticationLogoutEvent) {
       //AuthenticationLoading
       // yield* _mapLoggedOutToState();
     } else if (event is CheckAuthenticationEvent) {
@@ -66,7 +66,7 @@ class AuthenticationBloc
       // await findAuthentication(NoParams())
       final checkToken = null;
       //splash
-      await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 5));
       if (checkToken != null) {
         yield Authenticated();
       } else

@@ -3,7 +3,7 @@ part of 'login_bloc.dart';
 @immutable
 abstract class LoginState extends Equatable{}
 
-class Epty extends LoginState {
+class Empty extends LoginState {
   @override
   // TODO: implement props
   List<Object> get props => [];
